@@ -19,7 +19,7 @@ This project is from a udemy course at https://www.udemy.com/course/nestjs-zero-
 - Used to organize application structure.
 - Modules are classes annotated with `@Module()`.
 - All nest apps should have at least one module.
-- More info [Here](https://docs.nestjs.com/modules){:target="\_blank"}
+- More info <a href="(https://docs.nestjs.com/modules" target="_blank">Here</a>.
 
 #### Controllers
 
@@ -27,7 +27,7 @@ This project is from a udemy course at https://www.udemy.com/course/nestjs-zero-
 - Controller doesn't do business logics. Those are mainly for the service layer.
 - Decorate with `@Controller('/whatever')`.
 - String passed in the decorator is the path to be handled by controller.
-- More info [Here](https://docs.nestjs.com/controllers){:target="\_blank"}
+- More info <a href="(https://docs.nestjs.com/controllers" target="_blank">Here</a>.
 
 #### Providers
 
@@ -35,7 +35,7 @@ This project is from a udemy course at https://www.udemy.com/course/nestjs-zero-
 - Can inject dependencies. (Objects can create various relationships with each other)
 - Decorate with `@Injectable()`.
 - Dependency injection are done through the constructor of classes.
-- More info [Here](https://docs.nestjs.com/providers){:target="\_blank"}
+- More info <a href="(https://docs.nestjs.com/providers" target="_blank">Here</a>.
 
 #### Services
 
