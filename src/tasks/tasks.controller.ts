@@ -17,6 +17,8 @@ export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   // handler
+  // Note that handlers doesn't do any business logics.
+  // They pass it off to the taskService and let them handle it.
   @Get()
   getAllTasks(): Task[] {
     return this.tasksService.getAllTasks()
