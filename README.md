@@ -54,3 +54,19 @@ This project is from a udemy course at https://www.udemy.com/course/nestjs-zero-
 - Not mandatory.
 
 </details>
+
+<details>
+<summary>Section 3</summary>
+
+#### Pipes
+
+- Operate on arguments to be processed by route handler.
+- Can perform data transformation or validation.
+- Can return either the original or modified data.
+- Can throw exceptions.
+- Class must implement `PipeTransform`.
+- Every pipe must have `transform()` method.
+- See `pipes/task-status-validation.pipe.ts` for an example.
+- More info <a href="(https://docs.nestjs.com/pipes" target="_blank">Here</a>.
+
+</details>
