@@ -8,10 +8,12 @@ import {
   Patch,
   UsePipes,
   ValidationPipe,
+  ParseIntPipe,
 } from '@nestjs/common'
 import { CreateTaskDto } from './dto/create-task-dto'
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe'
-import { Task, TaskStatus } from './task.model'
+import { TaskEntity } from './task.entity'
+import { TaskStatus } from './task.model'
 import { TasksService } from './tasks.service'
 
 // value passed in decorator is the name of the path.
@@ -23,17 +25,17 @@ export class TasksController {
   // Note that handlers doesn't do any business logics.
   // They pass it off to the taskService and let them handle it.
   @Get()
-  getAllTasks(): Task[] {
+  getAllTasks(): Promise<TaskEntity[]> {
     return this.tasksService.getAllTasks()
   }
 
   @Get('/:id')
-  getTaskById(@Param('id') taskId: string): Task {
+  getTaskById(@Param('id', ParseIntPipe) taskId: number): Promise<TaskEntity> {
     return this.tasksService.getTaskById(taskId)
   }
 
   @Delete('/:id')
-  deleteTaskById(@Param('id') taskId: string) {
+  deleteTaskById(@Param('id', ParseIntPipe) taskId: number) {
     return this.tasksService.deleteTaskById(taskId)
   }
 
@@ -45,7 +47,7 @@ export class TasksController {
 
   @Patch('/:id/status')
   updateTaskStatus(
-    @Param('id') taskId: string,
+    @Param('id', ParseIntPipe) taskId: number,
     @Body('status', TaskStatusValidationPipe) taskStatus: TaskStatus,
   ) {
     return this.tasksService.updateTaskStatus(taskId, taskStatus)

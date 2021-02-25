@@ -1,53 +1,33 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
-import { Task, TaskStatus } from './task.model'
-import { v1 as uuid } from 'uuid'
+import { Injectable } from '@nestjs/common'
+import { TaskStatus } from './task.model'
 import { CreateTaskDto } from './dto/create-task-dto'
+import { InjectRepository } from '@nestjs/typeorm'
+import { TaskRepository } from './task.repository'
+import { TaskEntity } from './task.entity'
 
 @Injectable()
 export class TasksService {
-  private tasks: Task[] = []
+  constructor(
+    @InjectRepository(TaskRepository) private taskRepository: TaskRepository,
+  ) {}
 
-  getAllTasks(): Task[] {
-    return this.tasks
+  getAllTasks(): Promise<TaskEntity[]> {
+    return this.taskRepository.getAllTasks()
   }
 
-  getTaskById(taskId: string): Task {
-    const existingTask = this.tasks.find((task) => task.id === taskId)
-
-    if (!existingTask) {
-      throw new NotFoundException(`Task ${taskId} is not found.`)
-    }
-
-    return existingTask
+  getTaskById(taskId: number): Promise<TaskEntity> {
+    return this.taskRepository.getTaskById(taskId)
   }
 
-  deleteTaskById(taskId: string): string {
-    const existingTask = this.getTaskById(taskId)
-
-    this.tasks = this.tasks.filter((task) => task.id !== existingTask.id)
-    return 'Task has been deleted.'
+  deleteTaskById(taskId: number): Promise<string> {
+    return this.taskRepository.deleteTaskById(taskId)
   }
 
-  createTask({ title, description }: CreateTaskDto): Task {
-    const task: Task = {
-      id: uuid(),
-      title,
-      description,
-      status: TaskStatus.OPEN,
-    }
-
-    this.tasks.push(task)
-
-    return task
+  createTask(createTaskDto: CreateTaskDto): Promise<TaskEntity> {
+    return this.taskRepository.createTask(createTaskDto)
   }
 
-  updateTaskStatus(taskId: string, taskStatus: TaskStatus) {
-    const existingTask = this.getTaskById(taskId)
-
-    if (existingTask) {
-      existingTask.status = taskStatus
-    }
-
-    return existingTask
+  updateTaskStatus(taskId: number, taskStatus: TaskStatus): Promise<string> {
+    return this.taskRepository.updateTaskStatus(taskId, taskStatus)
   }
 }

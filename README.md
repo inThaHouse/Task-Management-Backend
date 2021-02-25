@@ -70,3 +70,14 @@ This project is from a udemy course at https://www.udemy.com/course/nestjs-zero-
 - More info <a href="https://docs.nestjs.com/pipes" target="_blank">Here</a>.
 
 </details>
+
+<details>
+<summary>Section 4</summary>
+
+#### Object Relational Mapping (ORM)
+
+- Technique for converting data between code and database.
+- Allows to use code to send query to database.
+  Entity is a class that maps to a db table/collection. (See `src/tasks/task.entity.ts` for an example)
+- TypeORM docs are <a href="https://typeorm.io/#/" target="_blank">Here</a>.
+</details>
