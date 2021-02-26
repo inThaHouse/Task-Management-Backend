@@ -3,6 +3,7 @@ import { CreateTaskDto } from './dto/create-task-dto'
 import { TaskEntity } from './task.entity'
 import { TaskStatus } from './task.model'
 import { NotFoundException } from '@nestjs/common'
+import { GetTasksFilterDto } from './dto/get-tasks-filter-dto'
 
 @EntityRepository(TaskEntity)
 export class TaskRepository extends Repository<TaskEntity> {
@@ -16,9 +17,22 @@ export class TaskRepository extends Repository<TaskEntity> {
     return task
   }
 
-  async getAllTasks(): Promise<TaskEntity[]> {
-    const tasks = await this.find()
+  async getAllTasks({ status, search }: GetTasksFilterDto): Promise<TaskEntity[]> {
+    const query = this.createQueryBuilder('task')
 
+    if (status) {
+      query.andWhere('task.status = :status', { status })
+    }
+
+    const queryStatement = '(task.title LIKE :search OR task.description LIKE :search)'
+
+    if (search) {
+      query.andWhere(queryStatement, {
+        search: `%${search}%`,
+      })
+    }
+
+    const tasks = await query.getMany()
     return tasks
   }
 
@@ -42,10 +56,7 @@ export class TaskRepository extends Repository<TaskEntity> {
     return 'Task has been deleted.'
   }
 
-  async updateTaskStatus(
-    taskId: number,
-    taskStatus: TaskStatus,
-  ): Promise<string> {
+  async updateTaskStatus(taskId: number, taskStatus: TaskStatus): Promise<string> {
     const { affected } = await this.update(taskId, { status: taskStatus })
 
     if (!affected) {

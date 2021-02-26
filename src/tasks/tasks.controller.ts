@@ -9,8 +9,10 @@ import {
   UsePipes,
   ValidationPipe,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common'
 import { CreateTaskDto } from './dto/create-task-dto'
+import { GetTasksFilterDto } from './dto/get-tasks-filter-dto'
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe'
 import { TaskEntity } from './task.entity'
 import { TaskStatus } from './task.model'
@@ -25,8 +27,10 @@ export class TasksController {
   // Note that handlers doesn't do any business logics.
   // They pass it off to the taskService and let them handle it.
   @Get()
-  getAllTasks(): Promise<TaskEntity[]> {
-    return this.tasksService.getAllTasks()
+  getAllTasks(
+    @Query(ValidationPipe) filterDto: GetTasksFilterDto,
+  ): Promise<TaskEntity[]> {
+    return this.tasksService.getAllTasks(filterDto)
   }
 
   @Get('/:id')
