@@ -2,21 +2,34 @@ import { EntityRepository, Repository } from 'typeorm'
 import { CreateTaskDto } from './dto/create-task-dto'
 import { TaskEntity } from './task.entity'
 import { TaskStatus } from './task.model'
-import { NotFoundException } from '@nestjs/common'
+import { InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common'
 import { GetTasksFilterDto } from './dto/get-tasks-filter-dto'
 import { User } from 'src/auth/user.entity'
 
 @EntityRepository(TaskEntity)
 export class TaskRepository extends Repository<TaskEntity> {
-  async createTask({ title, description }: CreateTaskDto, user: User): Promise<TaskEntity> {
-    const task = await this.save({
-      title,
-      description,
-      status: TaskStatus.OPEN,
-      userId: user.id,
-    })
+  private logger = new Logger('TaskRepository')
 
-    return task
+  async createTask({ title, description }: CreateTaskDto, user: User): Promise<TaskEntity> {
+    try {
+      const task = await this.save({
+        title,
+        description,
+        status: TaskStatus.OPEN,
+        userId: user.id,
+      })
+
+      return task
+    } catch (error) {
+      this.logger.error(
+        `User ${user.username} couldn't create a task. Data : ${JSON.stringify({
+          title,
+          description,
+        })}`,
+        error.stack,
+      )
+      throw new InternalServerErrorException()
+    }
   }
 
   async getAllTasks({ status, search }: GetTasksFilterDto, user: User): Promise<TaskEntity[]> {
@@ -36,8 +49,19 @@ export class TaskRepository extends Repository<TaskEntity> {
       })
     }
 
-    const tasks = await query.getMany()
-    return tasks
+    try {
+      const tasks = await query.getMany()
+      return tasks
+    } catch (error) {
+      this.logger.error(
+        `Failed to get tasks for user ${user.username}. Filters: ${JSON.stringify({
+          status,
+          search,
+        })}`,
+        error.stack,
+      )
+      throw new InternalServerErrorException()
+    }
   }
 
   async getTaskById(taskId: number, user: User): Promise<TaskEntity> {
