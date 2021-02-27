@@ -10,7 +10,9 @@ import {
   ValidationPipe,
   ParseIntPipe,
   Query,
+  UseGuards,
 } from '@nestjs/common'
+import { AuthGuard } from '@nestjs/passport'
 import { CreateTaskDto } from './dto/create-task-dto'
 import { GetTasksFilterDto } from './dto/get-tasks-filter-dto'
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe'
@@ -20,6 +22,7 @@ import { TasksService } from './tasks.service'
 
 // value passed in decorator is the name of the path.
 @Controller('/tasks')
+@UseGuards(AuthGuard())
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
@@ -27,9 +30,7 @@ export class TasksController {
   // Note that handlers doesn't do any business logics.
   // They pass it off to the taskService and let them handle it.
   @Get()
-  getAllTasks(
-    @Query(ValidationPipe) filterDto: GetTasksFilterDto,
-  ): Promise<TaskEntity[]> {
+  getAllTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDto): Promise<TaskEntity[]> {
     return this.tasksService.getAllTasks(filterDto)
   }
 

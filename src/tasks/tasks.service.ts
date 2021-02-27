@@ -8,9 +8,7 @@ import { GetTasksFilterDto } from './dto/get-tasks-filter-dto'
 
 @Injectable()
 export class TasksService {
-  constructor(
-    @InjectRepository(TaskRepository) private taskRepository: TaskRepository,
-  ) {}
+  constructor(@InjectRepository(TaskRepository) private taskRepository: TaskRepository) {}
 
   getAllTasks(filterDto: GetTasksFilterDto): Promise<TaskEntity[]> {
     return this.taskRepository.getAllTasks(filterDto)

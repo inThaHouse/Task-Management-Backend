@@ -81,3 +81,23 @@ This project is from a udemy course at https://www.udemy.com/course/nestjs-zero-
   Entity is a class that maps to a db table/collection. (See `src/tasks/task.entity.ts` for an example)
 - TypeORM docs are <a href="https://typeorm.io/#/" target="_blank">Here</a>.
 </details>
+
+<details>
+<summary>Section 5</summary>
+
+#### Password storage protip
+
+- Don't store plain text password in your db.
+- Bcrypt package will help for password hashing.
+- Bcrypt has utilities to generate salts and password hashing.
+
+#### Json Web Tokens
+
+- Open source industry standard (RFC-7519)
+- Signed by issuer using a secret or keypair.
+- Verifies that the sender is who they claim to be.
+- Usable for auth or secure exchange of data between parties.
+- JWT structure contains header, payload and signature.
+- JWT is signed with a secret and an expiry time.
+- JWTs can decoded by anyone so they should not contain any sensitive infos such as passwords.
+</details>
