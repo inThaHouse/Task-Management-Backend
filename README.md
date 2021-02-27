@@ -2,6 +2,12 @@
 
 This project is from a udemy course at https://www.udemy.com/course/nestjs-zero-to-hero/
 
+## Usage
+
+1. Have NodeJS and Postgres installed.
+2. Install packages after cloning.
+3. In development, `npm run dev:start` and check logs or `config/default.yaml` to see which port the backend will be started on.
+
 ## Notes
 
 <details>
