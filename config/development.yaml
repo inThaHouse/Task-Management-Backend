@@ -1,0 +1,10 @@
+db:
+  host: 'localhost'
+  username: 'postgres'
+  password: 'alan'
+  database: 'taskmanagementudemycourse'
+  autoLoadEntities: true
+  synchronize: true
+
+jwt:
+  secret: 'lolSAYWHAT12HEWJFDSJK32'

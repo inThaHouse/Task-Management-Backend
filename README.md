@@ -101,6 +101,7 @@ This project is from a udemy course at https://www.udemy.com/course/nestjs-zero-
 - JWT is signed with a secret and an expiry time.
 - JWTs can decoded by anyone so they should not contain any sensitive infos such as passwords.
 </details>
+
 <details>
 <summary>Section 7</summary>
 
@@ -110,5 +111,16 @@ This project is from a udemy course at https://www.udemy.com/course/nestjs-zero-
 - `src/tasks/task.controller.ts`
 - `src/tasks/task.repository.ts`
 - `main.ts`
+
+</details>
+<details>
+<summary>Section 8</summary>
+
+#### Config usage
+
+- Check `config` folder on how to setup configuration.
+- `src/auth/auth.module.ts` on how you can use your config to hide your jwt secret.
+- `src/config/typeorm.config.ts` on how you can setup your db with your configuration values.
+- `main.ts` on how you can config your port.
 
 </details>
